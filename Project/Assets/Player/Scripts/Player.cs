@@ -5,7 +5,7 @@ using Actions;
 public class Player : Character
 {
     [SerializeField] private Animator animator;
-    private Inventory inventory;
+    //private Inventory inventory;
     private Action firstAction;
     private Action secondAction;
     void Start()
