@@ -1,10 +1,8 @@
-﻿using UnityEngine;
-using Actions;
+﻿using Actions;
 using System.Collections.Generic;
 
-public class NPCKind : MonoBehaviour
-{
-    public int health { protected set; get; }
-    public List<Action> actions { protected set; get; }
 
+public class NPCKind : CharacterKind
+{
+    public List<Action> actions { protected set; get; }
 }

@@ -27,7 +27,6 @@ public class CameraForPlayer : MonoBehaviour
     /// координаты положения наблюдаемого объекта в предыдущем кадре
     /// </summary>
     private Vector2 lastPos;
-    private int y;
 
     void Start()
     {
@@ -60,7 +59,6 @@ public class CameraForPlayer : MonoBehaviour
         else
             target.x = player.transform.position.x + offsetX;
 
-        if (lastPos.y != currentY) y = 0;
 
         if (isDown)
                 target.y = player.transform.position.y - offsetY; // + (++y) * 0.0005f

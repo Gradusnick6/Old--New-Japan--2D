@@ -2,8 +2,9 @@
 using UnityEngine;
 using Actions;
 
-public class Player : Character
+public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private PlayerKind kind;
     [SerializeField] private Animator animator;
     //private Inventory inventory;
     private Action firstAction;
@@ -22,17 +23,16 @@ public class Player : Character
         //Передвижение
         float xInput = Input.GetAxis("Horizontal");
         float yInput = Input.GetAxis("Vertical");
-        transform.Translate(xInput * speed * Time.deltaTime, yInput * speed * Time.deltaTime, 0f);
+        transform.Translate(xInput * kind.speed * Time.deltaTime, yInput * kind.speed * Time.deltaTime, 0f);
 
         //Обработка первого действия
         float a1Input = Input.GetAxis("Action1");
-        //firstAction.Start();
-
+        //firstAction.Run();
 
 
         //Обработка второго действия
         float a2Input = Input.GetAxis("Action2");
-        //secondAction.Start();
+        //secondAction.Run();
     }
 
     //void setHandsWeapon
