@@ -38,6 +38,9 @@ namespace MonteCarloTree
             return LastActiveTree;
         }
 
+        /// <summary>
+        /// Передача инофрмации лесу родителю
+        /// </summary>
         public void InformationTransfer()
         {
             for (int i = 0; i < actionTrees.Count; i++)

@@ -30,19 +30,19 @@ namespace MonteCarloTree
         /// <summary>
         /// Оценка узла
         /// </summary>
-        private double actionBranchEvaluation;
+        [NonSerialized] private double actionBranchEvaluation;
         /// <summary>
         /// Использовалось ли действие
         /// </summary>
-        private bool isUsed;
+        [NonSerialized] private bool isUsed;
         /// <summary>
         /// Последний счёт использованного действия
         /// </summary>
-        private double lastScoreAction;
+        [NonSerialized] private double lastScoreAction;
         /// <summary>
         /// Нужно ли увеличивать количество выйгрышных использований
         /// </summary>
-        public bool isWinningGameUpgrade;
+        [NonSerialized] public bool isWinningGameUpgrade;
 
         public ActionBranch() : base()
         {

@@ -26,7 +26,7 @@ namespace MonteCarloTree
         /// <summary>
         /// Следующий узел, использовавшийся прошлый раз
         /// </summary>
-        protected int indexNextNode;
+        [NonSerialized] protected int indexNextNode;
 
         public Node()
         {

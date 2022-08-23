@@ -14,7 +14,7 @@ namespace MonteCarloTree
         /// <summary>
         /// Суммарный счёт использованых узлов
         /// </summary>
-        private double generalScore;
+        [NonSerialized] private double generalScore;
         /// <summary>
         /// Глубина дерева
         /// </summary>
