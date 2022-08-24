@@ -10,7 +10,7 @@ namespace MonteCarloTree
         /// <summary>
         /// Действие узла
         /// </summary>
-        public Action Action { private set; get; }
+        public Action ActivAction { get; set; }
         /// <summary>
         /// Количество выйгрышных использований узла
         /// </summary>
@@ -46,7 +46,7 @@ namespace MonteCarloTree
 
         public ActionBranch() : base()
         {
-            Action = null;
+            ActivAction = null;
             winningGame = 0;
             numberOfGames = 0;
             generationModifier = 0;
@@ -60,13 +60,13 @@ namespace MonteCarloTree
         /// <summary>
         /// Конструктор
         /// </summary>
-        /// <param name="action_">Действие узла</param>
+        /// <param name="ActivAction_">Действие узла</param>
         /// <param name="followingActions_">Список действий для последующих узлов</param>
         /// <param name="typeBehavior_">Тип поведения узла</param>
         /// <param name="nodeDepth_">Глубина узла</param>
-        public ActionBranch(Action action_, List<Action> followingActions_, TypeAction typeBehavior_,  int nodeDepth_) : this()
+        public ActionBranch(Action ActivAction_, List<Action> followingActions_, TypeAction typeBehavior_,  int nodeDepth_) : this()
         {
-            Action = action_;
+            ActivAction = ActivAction_;
             followingActions = new List<Action>(followingActions_);
             sheets = new List<ActionBranch>(followingActions.Count);
             for (int i = 0; i < followingActions.Count; i++)
@@ -81,7 +81,7 @@ namespace MonteCarloTree
         /// Конструктор копирования
         /// </summary>
         /// <param name="actionBranch">Копируемый объект</param>
-        public ActionBranch(ActionBranch actionBranch) : this(actionBranch.Action, actionBranch.followingActions, actionBranch.typeBehavior, actionBranch.nodeDepth) 
+        public ActionBranch(ActionBranch actionBranch) : this(actionBranch.ActivAction, actionBranch.followingActions, actionBranch.typeBehavior, actionBranch.nodeDepth) 
         {
             winningGame = actionBranch.winningGame;
             numberOfGames = actionBranch.numberOfGames;
@@ -233,6 +233,8 @@ namespace MonteCarloTree
             }
         }
 
+        
+
         /// <summary>
         /// Запуск следующего действия
         /// </summary>
@@ -241,8 +243,8 @@ namespace MonteCarloTree
         {
             if (!isUsed)
             {
-                Action.Start();
-                lastScoreAction = Action.GetLastScore(typeBehavior);
+                ActivAction.Run();
+                lastScoreAction = ActivAction.GetLastScore(typeBehavior);
                 isUsed = true;
                 numberOfGames++;
                 amountOfAction++;
@@ -265,7 +267,7 @@ namespace MonteCarloTree
                 for (int k = 1; k <= (Math.Pow(followingActions.Count, treeDepth - depth - 1) - 0.5) * outputLength; k++)
                     Console.Write(" ");
 
-                Console.Write(Action.GetTypeAction() + ":");
+                Console.Write(ActivAction.GetTypeAction() + ":");
 
                 if (outputType == "numberGame") 
                     Console.Write(winningGame+"/"+numberOfGames+" ");

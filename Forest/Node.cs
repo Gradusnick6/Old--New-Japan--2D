@@ -87,7 +87,7 @@ namespace MonteCarloTree
             {
                 if (sheets[i] != null)
                 {
-                    followingActions_[i] = sheets[i].Action;
+                    followingActions_[i] = sheets[i].ActivAction;
                 }
             }
             return followingActions_;
@@ -158,6 +158,26 @@ namespace MonteCarloTree
                 treeDepth++;
             }
             return indexAction;
+        }
+
+        /// <summary>
+        /// Замена действий у узла и последующих узлов
+        /// </summary>
+        /// <param name="followingActions_"></param>
+        public void SwapActions(List<Action> followingActions_)
+        {
+            for (int i = 0; i < followingActions_.Count; i++)
+            {
+                if (sheets[i] != null)
+                {
+                    sheets[i].ActivAction = followingActions_[i];
+                    sheets[i].SwapActions(followingActions_);
+                }
+                else
+                {
+                    followingActions[i] = followingActions_[i];
+                }
+            }
         }
     }
 }

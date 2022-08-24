@@ -24,6 +24,6 @@ namespace MonteCarloTree
         /// Запуск действия
         /// </summary>
         /// <returns>Счёт действия</returns>
-        public abstract void Start();
+        public abstract void Run();
     }
 }
