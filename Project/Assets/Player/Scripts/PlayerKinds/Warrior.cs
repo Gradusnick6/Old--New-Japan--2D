@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+[CreateAssetMenu(fileName = "Warrior", menuName = "CharacterKind/PlayerKind/Warrior", order = 2)]
 public class Warrior : PlayerKind
 {
     private void Awake()

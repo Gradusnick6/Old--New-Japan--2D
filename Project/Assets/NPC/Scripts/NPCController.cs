@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using Actions;
+using Actions_back;
 
 public class NPCController : MonoBehaviour
 {
@@ -10,7 +10,7 @@ public class NPCController : MonoBehaviour
     void Start()
     {
         actions = new List<Action>();
-        GetComponents(actions);
+        actions = kind.actions;
     }
     void Update()
     {

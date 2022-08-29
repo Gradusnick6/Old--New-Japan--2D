@@ -1,22 +1,21 @@
 ﻿using UnityEngine;
 using MonteCarloTree;
 
-namespace Actions
+namespace Actions_back
 {
     public class HealYourself : Action
     {
-        public override void Initialize_Hit(int minDamage_, int maxDamage_, float rechargeTime_, Animation anim_) { }
         [SerializeField] private Character character;
-        private int amountHealth;
-        public override void Initialize_Heal(int amountHealth_, float rechargeTime_, Animation anim_) 
+        private int minHeal;
+        private int maxHeal;
+        public override void Initialize(ActionInfoBox infoBox)
         {
-            amountHealth = amountHealth_;
-            rechargeTime = rechargeTime_;
+            kind = infoBox.kind;
+            minHeal = infoBox.minHeal;
+            maxHeal = infoBox.maxHeal;
+            rechargeTime = infoBox.rechargeTime;
             curRechargeTime = rechargeTime;
-
-            anim = anim_;
-            if (character == null)
-                character = GetComponent<Character>();
+            anim = infoBox.anim;
         }
         public override double GetLastScore(TypeAction typeActionTree)
         {
@@ -32,14 +31,9 @@ namespace Actions
         {
             if (curRechargeTime >= rechargeTime)
             {
-                character.getHeal(amountHealth);
+                character.getHeal(Random.Range(minHeal, maxHeal + 1));
                 curRechargeTime = 0;
             }
-        }
-
-        public override void Update()
-        {
-            curRechargeTime += Time.deltaTime;
         }
     }
 }

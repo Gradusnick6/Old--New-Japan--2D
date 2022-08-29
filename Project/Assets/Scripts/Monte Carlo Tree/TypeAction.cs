@@ -2,7 +2,7 @@
 {
     public enum TypeAction
     {
-        Damage,
+        Hit,
         Heal
     }
 
