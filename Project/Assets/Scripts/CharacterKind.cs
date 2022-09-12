@@ -2,6 +2,9 @@
 
 public class CharacterKind : ScriptableObject
 {
+    public Character character;
+    public GameObject gameObj;
+    public ActionObjectCreater aObjCreater;
     [SerializeField] public int health { protected set; get; }
     [SerializeField] public float speed = 3f;
     /// <summary>

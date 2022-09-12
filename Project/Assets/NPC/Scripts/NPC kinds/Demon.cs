@@ -12,11 +12,13 @@ public class Demon : NPCKind
     {
         health = 150;
         actions = new List<Action>();
-
+    }
+    public override void Initialize()
+    {
         actions.Add(new StandartHit());
-        actions[0].Initialize(new ActionInfoBox(ActionKind.StandartHit, 5, 10, 0.6f, anim_SHit, new Vector3(1, 1, 1)));
+        actions[0].Initialize(new ActionInfoBox(ActionKind.StandartHit, aObjCreater, gameObj, 5, 10, 0.6f, anim_SHit, new Vector3(1, 1, 1)));
 
         actions.Add(new HealYourself());
-        actions[1].Initialize(new ActionInfoBox(ActionKind.HealYourself, 40, 40, 3f, anim_HealA));
+        actions[1].Initialize(new ActionInfoBox(ActionKind.HealYourself, aObjCreater, gameObj, character, 40, 40, 3f, anim_HealA));
     }
 }

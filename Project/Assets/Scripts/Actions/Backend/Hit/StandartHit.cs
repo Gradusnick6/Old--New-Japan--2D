@@ -12,16 +12,17 @@ namespace Actions_back
         /// размер зоны коллайдера для удара
         /// </summary>
         private Vector3 hitAreaScale;
-        [SerializeField] private ActionStorage actionStorage;
-        [SerializeField] private GameObject characterObj;
-        [SerializeField] private GameObject hitArea;
-        [SerializeField] private Collider2D hitCollider;
-        [SerializeField] private Collider2D characterCollider;
-
+        private ActionStorage actionStorage;
+        private GameObject characterObj;
+        private GameObject hitArea;
+        private Collider2D hitCollider;
+        private Collider2D characterCollider;
         int minDamage;
         int maxDamage;
         public override void Initialize(ActionInfoBox infoBox)
         {
+            isRun = true;
+
             if (infoBox.typeAction == TypeAction.Hit)
             {
                 kind = infoBox.kind;
@@ -30,11 +31,16 @@ namespace Actions_back
                 rechargeTime = infoBox.rechargeTime;
                 curRechargeTime = rechargeTime;
 
+                characterObj = infoBox.gameObj;
                 anim = infoBox.anim;
+                aObjCreater = infoBox.aObjCreator;
                 hitAreaScale = infoBox.hitAreaScale;
 
-                CreatHitAreaObj();
+                SetHitAreaObj();
                 hitArea.transform.localScale = hitAreaScale;
+                hitCollider = hitArea.GetComponent<Collider2D>();
+
+                characterCollider = characterObj.GetComponent<Collider2D>();
 
                 Physics2D.IgnoreCollision(hitCollider, characterCollider, true);
             }
@@ -50,8 +56,10 @@ namespace Actions_back
 
         public override void Run()
         {
-            if (curRechargeTime >= rechargeTime)
+            if (isRun)
             {
+                isRun = false;
+
                 ContactFilter2D characterCF = new ContactFilter2D().NoFilter();
                 characterCF.SetLayerMask(LayerMask.GetMask("Character"));
 
@@ -68,19 +76,20 @@ namespace Actions_back
                         target.GetComponent<Character>().getDamage(targetDamage);
                 }
 
-                curRechargeTime = 0;
+                RechargeDelay();
             }
         }
         /// <summary>
         /// Инициализирует hitArea объектом StandartHitArea
         /// Если такой объект отсутсвует в иерархии объекта, то создает его
         /// </summary>
-        public void CreatHitAreaObj()
+        public void SetHitAreaObj()
         {
             if (hitArea == null)
                 hitArea = characterObj.transform.Find("StandartHitArea").gameObject;
             if (hitArea == null)
-                hitArea = Instantiate(Resources.Load<GameObject>(actionStorage.GetResourcesPath(kind)), characterObj.transform);
+                hitArea = aObjCreater.CreatePrefab(Resources.Load<GameObject>(actionStorage.GetResourcesPath(kind)));
+                
         }
     }
 }

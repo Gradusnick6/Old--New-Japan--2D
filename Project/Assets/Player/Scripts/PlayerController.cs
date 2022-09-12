@@ -4,6 +4,7 @@ using Actions_back;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private ActionObjectCreater aObjCreater;
     [SerializeField] private PlayerKind kind;
     [SerializeField] private Animator animator;
     //private Inventory inventory;
@@ -11,8 +12,11 @@ public class PlayerController : MonoBehaviour
     private Action secondAction;
     void Start()
     {
-       // if (inventory.activeWeapon == null)
-       //     inventory.activeWeapon = new Hands();
+        if (aObjCreater == null) aObjCreater = transform.Find("ActionObjectCreater").GetComponent<ActionObjectCreater>();
+        kind.aObjCreater = aObjCreater;
+        kind.gameObj = gameObject;
+        // if (inventory.activeWeapon == null)
+        //     inventory.activeWeapon = new Hands();
 
         //firstAction = new StandartHit(inventory.activeWeapon.minDamage, 
         //                              inventory.activeWeapon.maxDamage,

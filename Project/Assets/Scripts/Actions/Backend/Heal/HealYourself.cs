@@ -5,12 +5,15 @@ namespace Actions_back
 {
     public class HealYourself : Action
     {
-        [SerializeField] private Character character;
+        private Character character;
         private int minHeal;
         private int maxHeal;
         public override void Initialize(ActionInfoBox infoBox)
         {
+            isRun = true;
+
             kind = infoBox.kind;
+            character = infoBox.character;
             minHeal = infoBox.minHeal;
             maxHeal = infoBox.maxHeal;
             rechargeTime = infoBox.rechargeTime;
@@ -29,10 +32,12 @@ namespace Actions_back
 
         public override void Run()
         {
-            if (curRechargeTime >= rechargeTime)
+            if (isRun)
             {
+                isRun = false;
                 character.getHeal(Random.Range(minHeal, maxHeal + 1));
                 curRechargeTime = 0;
+                RechargeDelay();
             }
         }
     }
