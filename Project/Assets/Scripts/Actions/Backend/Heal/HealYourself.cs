@@ -35,7 +35,7 @@ namespace Actions_back
             if (isRun)
             {
                 isRun = false;
-                character.getHeal(Random.Range(minHeal, maxHeal + 1));
+                character.GetHeal(Random.Range(minHeal, maxHeal + 1));
                 curRechargeTime = 0;
                 RechargeDelay();
             }

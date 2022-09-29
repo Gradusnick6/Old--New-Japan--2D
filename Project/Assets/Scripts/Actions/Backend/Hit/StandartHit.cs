@@ -73,7 +73,7 @@ namespace Actions_back
                 foreach (Collider2D target in targets)
                 {
                     if (characterCollider != target)
-                        target.GetComponent<Character>().getDamage(targetDamage);
+                        target.GetComponent<Character>().GetDamage(targetDamage);
                 }
 
                 RechargeDelay();

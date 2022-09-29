@@ -10,13 +10,13 @@ public class Character : MonoBehaviour
         maxHealth = kind.health;
         currentHealth = maxHealth;
     }
-    public void getDamage(int damage)
+    public void GetDamage(int damage)
     {
         if (currentHealth > damage)
             currentHealth -= damage;
         else currentHealth = 0;
     }
-    public void getHeal(int amountHealth)
+    public void GetHeal(int amountHealth)
     {
         if (maxHealth < amountHealth + currentHealth)
             currentHealth = maxHealth;
