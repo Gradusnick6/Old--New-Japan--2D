@@ -49,5 +49,7 @@ namespace MonteCarloTree
                 actionTree.InformationTransfer(progenitorActionForest.actionTrees[i]);
             }
         }
+
+
     }
 }
