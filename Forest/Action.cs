@@ -4,8 +4,7 @@ using System.Text;
 
 namespace MonteCarloTree
 {
-    [Serializable]
-    public abstract class Action
+    public interface IAction
     {
         /// <summary>
         /// Возврат типа действия

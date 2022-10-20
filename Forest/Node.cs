@@ -18,7 +18,7 @@ namespace MonteCarloTree
         /// <summary>
         /// Список действий для последующих узлов
         /// </summary>
-        protected List<Action> followingActions;
+        protected List<IAction> followingActions;
         /// <summary>
         /// Глубина узла
         /// </summary>
@@ -80,9 +80,9 @@ namespace MonteCarloTree
         /// Возврат списока действий для последующих узлов
         /// </summary>
         /// <returns>Список действий для последующих узлов</returns>
-        protected List<Action> GetFollowingActions()
+        protected List<IAction> GetFollowingActions()
         {
-            List<Action> followingActions_ = new List<Action>(followingActions);
+            List<IAction> followingActions_ = new List<IAction>(followingActions);
             for (int i = 0; i < sheets.Count; i++)
             {
                 if (sheets[i] != null)
@@ -99,7 +99,7 @@ namespace MonteCarloTree
         /// <returns>true - есть, false - нет</returns>
         protected bool IsAnyActions()
         {
-            foreach (Action action in followingActions)
+            foreach (IAction action in followingActions)
             {
                 if (action != null)
                 {
@@ -164,7 +164,7 @@ namespace MonteCarloTree
         /// Замена действий у узла и последующих узлов
         /// </summary>
         /// <param name="followingActions_"></param>
-        public void SwapActions(List<Action> followingActions_)
+        public void SwapActions(List<IAction> followingActions_)
         {
             for (int i = 0; i < followingActions_.Count; i++)
             {
