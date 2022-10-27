@@ -12,4 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3093a89782b8b3247bddd4574497034b, type: 3}
   m_Name: Demon
   m_EditorClassIdentifier: 
+  character: {fileID: 0}
+  gameObj: {fileID: 0}
+  aObjCreater: {fileID: 0}
   speed: 3
+  aForest:
+    actionTrees: []
+  pAFS: {fileID: 11400000, guid: 6308e1044d7ed294d802c75f2b975936, type: 2}

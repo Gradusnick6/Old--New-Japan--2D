@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
+using MonteCarloTree;
 
 public class CharacterKind : ScriptableObject
 {
+    public ActionForest aForest;
     public Character character;
     public GameObject gameObj;
     public ActionObjectCreater aObjCreater;

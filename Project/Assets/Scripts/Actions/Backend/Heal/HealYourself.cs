@@ -22,7 +22,7 @@ namespace Actions_back
         }
         public override double GetLastScore(TypeAction typeActionTree)
         {
-            throw new System.NotImplementedException();
+            return 1;
         }
 
         public override TypeAction GetTypeAction()
@@ -30,15 +30,18 @@ namespace Actions_back
             return TypeAction.Heal;
         }
 
-        public override void Run()
+        public override bool Run()
         {
+
             if (isRun)
             {
                 isRun = false;
                 character.GetHeal(Random.Range(minHeal, maxHeal + 1));
                 curRechargeTime = 0;
                 RechargeDelay();
+                return true;
             }
+            return false;
         }
     }
 }

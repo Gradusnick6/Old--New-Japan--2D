@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using MonteCarloTree;
 using UnityEngine;
-using Actions_front;
+using System.Threading.Tasks;
 
 
 namespace Actions_back
@@ -12,7 +12,6 @@ namespace Actions_back
         /// размер зоны коллайдера для удара
         /// </summary>
         private Vector3 hitAreaScale;
-        private ActionStorage actionStorage;
         private GameObject characterObj;
         private GameObject hitArea;
         private Collider2D hitCollider;
@@ -36,25 +35,37 @@ namespace Actions_back
                 aObjCreater = infoBox.aObjCreator;
                 hitAreaScale = infoBox.hitAreaScale;
 
-                SetHitAreaObj();
-                hitArea.transform.localScale = hitAreaScale;
-                hitCollider = hitArea.GetComponent<Collider2D>();
+                if (characterObj != null)
+                    if (hitArea == null)
+                    {
+                        hitArea = characterObj.transform.Find("StandartHitArea").gameObject;
+                        characterCollider = characterObj.GetComponent<Collider2D>();
+                        hitArea.transform.localScale = hitAreaScale;
+                    }
+                if (aObjCreater != null)
+                    if (hitArea == null)
+                    {
+                        hitArea = aObjCreater.CreatePrefab(Resources.Load<GameObject>(ActionResources.GetResourcesPath(kind)));
+                        hitArea.transform.localScale = hitAreaScale;
+                    }
 
-                characterCollider = characterObj.GetComponent<Collider2D>();
+                if (hitArea != null)
+                    hitCollider = hitArea.GetComponent<Collider2D>();
 
+                if (hitCollider != null && characterCollider != null)
                 Physics2D.IgnoreCollision(hitCollider, characterCollider, true);
             }
         }
         public override double GetLastScore(TypeAction typeActionTree)
         {
-            throw new System.NotImplementedException();
+            return 1;
         }
         public override TypeAction GetTypeAction()
         {
             return TypeAction.Hit;
         }
 
-        public override void Run()
+        public override bool Run()
         {
             if (isRun)
             {
@@ -77,19 +88,9 @@ namespace Actions_back
                 }
 
                 RechargeDelay();
+                return true;
             }
-        }
-        /// <summary>
-        /// Инициализирует hitArea объектом StandartHitArea
-        /// Если такой объект отсутсвует в иерархии объекта, то создает его
-        /// </summary>
-        public void SetHitAreaObj()
-        {
-            if (hitArea == null)
-                hitArea = characterObj.transform.Find("StandartHitArea").gameObject;
-            if (hitArea == null)
-                hitArea = aObjCreater.CreatePrefab(Resources.Load<GameObject>(actionStorage.GetResourcesPath(kind)));
-                
+            return false;
         }
     }
 }

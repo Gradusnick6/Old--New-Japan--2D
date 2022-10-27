@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-using Actions_back;
+﻿using UnityEngine;
 using UnityEngine.AI;
+using MonteCarloTree;
 
 public class NPCController : MonoBehaviour
 {
@@ -15,12 +14,17 @@ public class NPCController : MonoBehaviour
     [SerializeField] private Character character;
     [SerializeField] private ActionObjectCreater aObjCreater;
     [SerializeField] private NPCKind kind;
-    private List<Action> actions;
 
+    //хранит в себе информацию о выполнении текущего действия
+    //если действие было доступно и выполнено, то true
+    //если действие было не выполнено, то false
+    bool isComleted;
+
+    private ActionForest aForest;
 
     void Start()
     {
-        ActionsInitialize();
+        ForestInitialize();
         MovementInitialize();
     }
 
@@ -35,11 +39,10 @@ public class NPCController : MonoBehaviour
 
         eyes.DrawViewState();
 
-
-        //for (int i = 0; i < actions.Count; i++)
-        //    actions[i].Run();
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+            aForest.Start();
     }
-    private void ActionsInitialize()
+    private void ForestInitialize()
     {
         if (aObjCreater == null) aObjCreater = transform.Find("ActionObjectCreater").GetComponent<ActionObjectCreater>();
         kind.aObjCreater = aObjCreater;
@@ -49,10 +52,9 @@ public class NPCController : MonoBehaviour
         if (character == null) character = transform.GetComponent<Character>();
         kind.character = character;
 
-        actions = new List<Action>();
-        actions = kind.Actions;
-
         kind.Initialize();
+
+        aForest = kind.aForest;
     }
     private void MovementInitialize()
     {

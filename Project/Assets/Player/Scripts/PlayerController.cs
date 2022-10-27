@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private ActionObjectCreater aObjCreater;
     [SerializeField] private PlayerKind kind;
     [SerializeField] private Animator animator;
+    [SerializeField] private GameObject target;
     //private Inventory inventory;
     private Action firstAction;
     private Action secondAction;
@@ -31,7 +32,8 @@ public class PlayerController : MonoBehaviour
 
         //Обработка первого действия
         float a1Input = Input.GetAxis("Action1");
-        //firstAction.Run();
+        if (Input.GetKeyDown(KeyCode.Space))
+            target.GetComponent<Character>().GetDamage(100);
 
 
         //Обработка второго действия

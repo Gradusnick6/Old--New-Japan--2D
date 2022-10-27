@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Actions_back
 {
-    public abstract class Action
+    public abstract class Action : IAction
     {
         protected ActionObjectCreater aObjCreater;
         /// <summary>
@@ -34,21 +34,9 @@ namespace Actions_back
 
 
         public abstract void Initialize(ActionInfoBox infoBox);
-        /// <summary>
-        /// Возврат типа действия
-        /// </summary>
-        /// <returns>Тип действия</returns>
         public abstract TypeAction GetTypeAction();
-        /// <summary>
-        /// Последний счёт действия
-        /// </summary>
-        /// <param name="typeActionTree">Тип дерева</param>
-        /// <returns></returns>
         public abstract double GetLastScore(TypeAction typeActionTree);
-        /// <summary>
-        /// Запуск действия
-        /// </summary>
-        public abstract void Run();
+        public abstract bool Run();
         /// <summary>
         /// Возвращает конкатенацию полей имени и уровня владельца
         /// </summary>
