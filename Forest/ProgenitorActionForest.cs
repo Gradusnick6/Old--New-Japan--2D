@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace MonteCarloTree
 {
@@ -61,7 +62,7 @@ namespace MonteCarloTree
         /// Замена действий у узла и последующих узлов
         /// </summary>
         /// <param name="followingActions_"></param>
-        public void SwapActions(List<IAction> followingActions_)
+        public void SwapActions(List<Action> followingActions_)
         {
             for (int i = 0; i < actionTrees.Count; i++)
             {

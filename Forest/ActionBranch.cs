@@ -10,7 +10,7 @@ namespace MonteCarloTree
         /// <summary>
         /// Действие узла
         /// </summary>
-        public IAction ActivAction { get; set; }
+        public Action ActivAction { get; set; }
         /// <summary>
         /// Количество выйгрышных использований узла
         /// </summary>
@@ -64,10 +64,10 @@ namespace MonteCarloTree
         /// <param name="followingActions_">Список действий для последующих узлов</param>
         /// <param name="typeBehavior_">Тип поведения узла</param>
         /// <param name="nodeDepth_">Глубина узла</param>
-        public ActionBranch(IAction ActivAction_, List<IAction> followingActions_, TypeAction typeBehavior_,  int nodeDepth_) : this()
+        public ActionBranch(Action ActivAction_, List<Action> followingActions_, TypeAction typeBehavior_,  int nodeDepth_) : this()
         {
             ActivAction = ActivAction_;
-            followingActions = new List<IAction>(followingActions_);
+            followingActions = new List<Action>(followingActions_);
             sheets = new List<ActionBranch>(followingActions.Count);
             for (int i = 0; i < followingActions.Count; i++)
             {

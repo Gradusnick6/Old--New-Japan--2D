@@ -34,9 +34,9 @@ namespace MonteCarloTree
         /// <param name="followingActions_">Список действий для последующих узлов</param>
         /// <param name="typeBehavior_">Тип поведения узла</param>
         /// <param name="nodeDepth_">Глубина узла</param>
-        public ActionTree(List<IAction> followingActions_, TypeAction typeBehavior_) : this()
+        public ActionTree(List<Action> followingActions_, TypeAction typeBehavior_) : this()
         {
-            followingActions = new List<IAction>(followingActions_);
+            followingActions = new List<Action>(followingActions_);
             sheets = new List<ActionBranch>(followingActions.Count);
             for (int i = 0; i < followingActions.Count; i++)
             {
