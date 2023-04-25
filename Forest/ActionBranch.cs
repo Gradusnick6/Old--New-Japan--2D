@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace MonteCarloTree
 {
@@ -10,7 +9,18 @@ namespace MonteCarloTree
         /// <summary>
         /// Действие узла
         /// </summary>
-        public Action ActivAction { get; set; }
+        public int ActivAction { get; set; }
+        /// <summary>
+        /// Стутус использования узла
+        /// noActive — не использовалось
+        /// isUsed — сейчас используется
+        /// alreadyUsed — уже использовалось
+        /// </summary>
+        public enum StatusUsed { noActive, isUsed, alreadyUsed }
+        /// <summary>
+        /// Стутус использования узла
+        /// </summary>
+        private StatusUsed statusUsed { get; set; }
         /// <summary>
         /// Количество выйгрышных использований узла
         /// </summary>
@@ -32,10 +42,6 @@ namespace MonteCarloTree
         /// </summary>
         [NonSerialized] private double actionBranchEvaluation;
         /// <summary>
-        /// Использовалось ли действие
-        /// </summary>
-        [NonSerialized] private bool isUsed;
-        /// <summary>
         /// Последний счёт использованного действия
         /// </summary>
         [NonSerialized] private double lastScoreAction;
@@ -46,14 +52,14 @@ namespace MonteCarloTree
 
         public ActionBranch() : base()
         {
-            ActivAction = null;
+            ActivAction = -1;
             winningGame = 0;
             numberOfGames = 0;
             generationModifier = 0;
             startingActionBranchEvaluation = 0;
             actionBranchEvaluation = 0;
             isWinningGameUpgrade = false;
-            isUsed = false;
+            statusUsed = StatusUsed.noActive;
             lastScoreAction = 0;
         }
 
@@ -64,10 +70,10 @@ namespace MonteCarloTree
         /// <param name="followingActions_">Список действий для последующих узлов</param>
         /// <param name="typeBehavior_">Тип поведения узла</param>
         /// <param name="nodeDepth_">Глубина узла</param>
-        public ActionBranch(Action ActivAction_, List<Action> followingActions_, TypeAction typeBehavior_,  int nodeDepth_) : this()
+        public ActionBranch(int ActivAction_, List<int> followingActions_, TypeAction typeBehavior_,  int nodeDepth_) : this()
         {
             ActivAction = ActivAction_;
-            followingActions = new List<Action>(followingActions_);
+            followingActions = new List<int>(followingActions_);
             sheets = new List<ActionBranch>(followingActions.Count);
             for (int i = 0; i < followingActions.Count; i++)
             {
@@ -230,36 +236,51 @@ namespace MonteCarloTree
             {
                 actionBranch.sheets[indexNextNode] = new ActionBranch(sheets[indexNextNode]);
                 actionBranch.sheets[indexNextNode].ClearIndexNextNode();
-                actionBranch.followingActions[indexNextNode] = null;
+                actionBranch.followingActions[indexNextNode] = -1;
                 sheets[indexNextNode].InformationTransfer(actionBranch.sheets[indexNextNode], generalScore, false);
             }
         }
 
-        
-
         /// <summary>
-        /// Запуск следующего действия
+        /// Ввод счёта последнего выполненного действия
         /// </summary>
+        /// <param name="scoreLastAction">Счёт последнего выполненного действия</param>
         /// <param name="amountOfAction">Общее количество выполненных действий в дереве</param>
-        public void Start(ref uint amountOfAction, ref int treeDepth)
+        public void SetScoreLastAction(double scoreLastAction, ref uint amountOfAction)
         {
-            if (!isUsed)
+            if (indexNextNode == -1 && statusUsed == StatusUsed.isUsed)
             {
-                ActivAction.Run();
-                lastScoreAction = ActivAction.GetLastScore(typeBehavior);
-                isUsed = true;
+                lastScoreAction = scoreLastAction;
+                statusUsed = StatusUsed.alreadyUsed;
                 numberOfGames++;
                 amountOfAction++;
             }
-            else if (indexNextNode == -1)
+            else sheets[indexNextNode].SetScoreLastAction(scoreLastAction, ref amountOfAction);
+        }
+
+        /// <summary>
+        /// Выбор следующего действия
+        /// </summary>
+        /// <param name="amountOfAction">Общее количество выполненных действий в дереве</param>
+        /// <param name="treeDepth">Глубина дерева</param>
+        /// <return>Индекс выбранного действия</return>
+        public int Start(ref uint amountOfAction, ref int treeDepth)
+        {
+            switch (statusUsed)
             {
-                indexNextNode = ChoiseSheet(amountOfAction, ref treeDepth);
-                sheets[indexNextNode].Start(ref amountOfAction, ref treeDepth);
+                case StatusUsed.noActive:
+                    statusUsed = StatusUsed.isUsed;
+                    return ActivAction;
+
+                case StatusUsed.alreadyUsed:
+                    if (indexNextNode == -1)
+                    {
+                        indexNextNode = ChoiseSheet(amountOfAction, ref treeDepth);
+                        return sheets[indexNextNode].Start(ref amountOfAction, ref treeDepth);
+                    }
+                    else return sheets[indexNextNode].Start(ref amountOfAction, ref treeDepth);
             }
-            else
-            {
-                sheets[indexNextNode].Start(ref amountOfAction, ref treeDepth);
-            }
+            return -1;
         }
 
         public void Print(int depth, int treeDepth, string outputType, int outputLength)
@@ -268,9 +289,9 @@ namespace MonteCarloTree
             {
                 for (int k = 1; k <= (Math.Pow(followingActions.Count, treeDepth - depth - 1) - 0.5) * outputLength; k++)
                     Console.Write(" ");
-
-                Console.Write(ActivAction.GetTypeAction() + ":");
-
+            
+                Console.Write(ActivAction + ":");
+            
                 if (outputType == "numberGame") 
                     Console.Write(winningGame+"/"+numberOfGames+" ");
                 if (outputType == "price")
@@ -279,7 +300,7 @@ namespace MonteCarloTree
                     Console.Write("{0:F2} ", startingActionBranchEvaluation);
                 if (outputType == "modifier")
                     Console.Write("{0:F3} ", generationModifier);
-
+            
                 for (int k = 1; k <= (Math.Pow(followingActions.Count, treeDepth - depth - 1) - 0.5) * outputLength; k++)
                     Console.Write(" ");
             }

@@ -28,14 +28,23 @@ namespace MonteCarloTree
         }
 
         /// <summary>
+        /// Ввод счёта последнего выполненного действия
+        /// </summary>
+        /// <param name="scoreLastAction">Счёт последнего выполненного действия</param>
+        public void SetScoreLastAction(double scoreLastAction)
+        {
+            if (LastActiveTree == -1) return;
+            else actionTrees[LastActiveTree].SetScoreLastAction(scoreLastAction);
+        }
+
+        /// <summary>
         /// Запуск следующего действия
         /// </summary>
-        /// <returns>Индекс выбранного дерева</returns>
+        /// <returns>Индекс выбранного действися</returns>
         public int Start()
         {
             LastActiveTree = behaviorSelector.GetIndexNextTree();
-            if (LastActiveTree != -1) actionTrees[LastActiveTree].Start();
-            return LastActiveTree;
+            return actionTrees[LastActiveTree].Start();
         }
 
         /// <summary>

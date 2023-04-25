@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace MonteCarloTree
 {
@@ -18,7 +17,7 @@ namespace MonteCarloTree
         /// <summary>
         /// Список действий для последующих узлов
         /// </summary>
-        protected List<Action> followingActions;
+        protected List<int> followingActions;
         /// <summary>
         /// Глубина узла
         /// </summary>
@@ -80,9 +79,9 @@ namespace MonteCarloTree
         /// Возврат списока действий для последующих узлов
         /// </summary>
         /// <returns>Список действий для последующих узлов</returns>
-        protected List<Action> GetFollowingActions()
+        protected List<int> GetFollowingActions()
         {
-            List<Action> followingActions_ = new List<Action>(followingActions);
+            List<int> followingActions_ = new List<int>(followingActions);
             for (int i = 0; i < sheets.Count; i++)
             {
                 if (sheets[i] != null)
@@ -99,9 +98,9 @@ namespace MonteCarloTree
         /// <returns>true - есть, false - нет</returns>
         protected bool IsAnyActions()
         {
-            foreach (Action action in followingActions)
+            foreach (int action in followingActions)
             {
-                if (action != null)
+                if (action != -1)
                 {
                     return true;
                 }
@@ -126,7 +125,7 @@ namespace MonteCarloTree
         }
 
         /// <summary>
-        /// оверка есть ли ещё не созданные узлы
+        /// Проверка есть ли ещё не созданные узлы
         /// </summary>
         /// <returns>true - есть, false - нет</returns>
         public void ClearIndexNextNode()
@@ -149,35 +148,15 @@ namespace MonteCarloTree
             do
             {
                 indexAction = MyRandom.rnd.Next(0, followingActions.Count);
-            } while (followingActions[indexAction] == null);
+            } while (followingActions[indexAction] == -1);
 
             sheets[indexAction] = new ActionBranch(followingActions[indexAction], GetFollowingActions(), typeBehavior, nodeDepth + 1);
-            followingActions[indexAction] = null;
+            followingActions[indexAction] = -1;
             if (treeDepth == nodeDepth)
             {
                 treeDepth++;
             }
             return indexAction;
-        }
-
-        /// <summary>
-        /// Замена действий у узла и последующих узлов
-        /// </summary>
-        /// <param name="followingActions_"></param>
-        public void SwapActions(List<Action> followingActions_)
-        {
-            for (int i = 0; i < followingActions_.Count; i++)
-            {
-                if (sheets[i] != null)
-                {
-                    sheets[i].ActivAction = followingActions_[i];
-                    sheets[i].SwapActions(followingActions_);
-                }
-                else
-                {
-                    followingActions[i] = followingActions_[i];
-                }
-            }
         }
     }
 }

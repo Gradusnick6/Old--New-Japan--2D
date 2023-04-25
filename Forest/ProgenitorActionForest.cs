@@ -53,21 +53,17 @@ namespace MonteCarloTree
         /// Вернуть клон переключателя поведения
         /// </summary>
         /// <returns>Клон переключателя поведения</returns>
+        public TypeAction GetTypeBehaviorLastActiveTree()
+        {
+            return actionTrees[LastActiveTree].typeBehavior;
+        }
+        /// <summary>
+        /// Вернуть клон переключателя поведения
+        /// </summary>
+        /// <returns>Клон переключателя поведения</returns>
         public BehaviorSelector GetCloneBehaviorSelector()
         {
             return behaviorSelector.GetCloneBehaviorSelector();
-        }
-
-        /// <summary>
-        /// Замена действий у узла и последующих узлов
-        /// </summary>
-        /// <param name="followingActions_"></param>
-        public void SwapActions(List<Action> followingActions_)
-        {
-            for (int i = 0; i < actionTrees.Count; i++)
-            {
-                actionTrees[i].SwapActions(followingActions_);
-            }
         }
 
         public void Print(int numOutputLength)

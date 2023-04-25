@@ -34,9 +34,9 @@ namespace MonteCarloTree
         /// <param name="followingActions_">Список действий для последующих узлов</param>
         /// <param name="typeBehavior_">Тип поведения узла</param>
         /// <param name="nodeDepth_">Глубина узла</param>
-        public ActionTree(List<Action> followingActions_, TypeAction typeBehavior_) : this()
+        public ActionTree(List<int> followingActions_, TypeAction typeBehavior_) : this()
         {
-            followingActions = new List<Action>(followingActions_);
+            followingActions = new List<int>(followingActions_);
             sheets = new List<ActionBranch>(followingActions.Count);
             for (int i = 0; i < followingActions.Count; i++)
             {
@@ -110,7 +110,7 @@ namespace MonteCarloTree
         }
 
         /// <summary>
-        /// Возвращает общий счёт узла и последющих узлов
+        /// Возвращает общий счёт узла и последующих узлов
         /// </summary>
         /// <returns>Общее счёт узла и последющих узлов</returns>
         public override double GetGeneralScore()
@@ -138,7 +138,6 @@ namespace MonteCarloTree
         /// Передача инофрмации деревьям в лес-родитель
         /// </summary>
         /// <param name="actionTree">дерево леса-родителя</param>
-        /// /// <param name="GeneralScore">Общий рейтинг дерева</param>
         public void InformationTransfer(ActionTree actionTree)
         {
             WinningGameUpgrade();
@@ -159,23 +158,33 @@ namespace MonteCarloTree
             {
                 actionTree.sheets[indexNextNode] = new ActionBranch(sheets[indexNextNode]);
                 actionTree.sheets[indexNextNode].ClearIndexNextNode();
-                actionTree.followingActions[indexNextNode] = null;
+                actionTree.followingActions[indexNextNode] = -1;
                 sheets[indexNextNode].InformationTransfer(actionTree.sheets[indexNextNode], generalScore, false);
             }
             actionTree.amountOfAction = actionTree.GetAmountOfAction();
         }
 
         /// <summary>
-        /// Запуск следующего действия
+        /// Ввод счёта последнего выполненного действия
         /// </summary>
-        /// <param name="amountOfAction">Общее количество выполненных действий в дереве</param>
-        public void Start()
+        /// <param name="scoreLastAction">Счёт последнего выполненного действия</param>
+        public void SetScoreLastAction(double scoreLastAction)
+        {
+            if (indexNextNode == -1) return;
+            else sheets[indexNextNode].SetScoreLastAction(scoreLastAction, ref amountOfAction);
+        }
+
+        /// <summary>
+        /// Выбор следующего действия
+        /// </summary>
+        /// </return>Индекс следующего действия <return>
+        public int Start()
         {
             if (indexNextNode == -1)
             {
                 indexNextNode = ChoiseSheet(amountOfAction, ref treeDepth);
             }
-            sheets[indexNextNode].Start(ref amountOfAction, ref treeDepth);
+            return sheets[indexNextNode].Start(ref amountOfAction, ref treeDepth);
         }
 
         public void Print(int numOutputLength)
