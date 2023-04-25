@@ -54,7 +54,7 @@ namespace MonteCarloTree
             {
                 EvaluationNewActionBranch = MathF.Sqrt(2 * MathF.Log(amountOfAction));
             }
-            double maxEvaluation = 0;
+            double maxEvaluation = double.MinValue;
             int item = 0;
             for (int i = 0; i < sheets.Count; i++)
             {

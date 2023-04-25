@@ -187,7 +187,9 @@ namespace MonteCarloTree
         /// </summary>
         public override void WinningGameUpgrade()
         {
-            isWinningGameUpgrade = true;
+            double probabilityWinning = MyRandom.rnd.Next(0, 100) / 100.0;
+            if (probabilityWinning <= lastScoreAction) 
+				isWinningGameUpgrade = true;
             if (indexNextNode != -1)
             {
                 sheets[indexNextNode].WinningGameUpgrade();
@@ -201,7 +203,7 @@ namespace MonteCarloTree
         /// <return>Изменение модификатора поколения</return>
         public double GetGenerationModifierChanging(double generalScore)
         {
-            return Math.Abs(actionBranchEvaluation - startingActionBranchEvaluation) * generalScore;
+             return Math.Abs(actionBranchEvaluation - startingActionBranchEvaluation) * lastScoreAction;
         }
 
         /// <summary>

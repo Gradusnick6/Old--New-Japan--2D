@@ -130,11 +130,7 @@ namespace MonteCarloTree
         {
             if (indexNextNode != -1)
             {
-                double probabilityWinning = MyRandom.rnd.Next(0,100)/100.0;
-                if (probabilityWinning<= sheets[indexNextNode].GetGeneralScore())
-                {
-                    sheets[indexNextNode].WinningGameUpgrade();
-                }
+                sheets[indexNextNode].WinningGameUpgrade();
             }
         }
 
